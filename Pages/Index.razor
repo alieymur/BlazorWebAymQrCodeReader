@@ -1,8 +1,56 @@
 ﻿@page "/"
+@inject IJSRuntime JsRuntime
+
 
 <PageTitle>Index</PageTitle>
 
-<h1>QrCode Okuma Uygulaması</h1>
+<h3>QrCode Oku</h3>
 
-Welcome to your new app.
+<video @ref="VideoHtmlElement">
+    Video Gelecek
+</video>
+
+<button @onclick="makefoto" class="btn">foto çek</button>
+<img src="@bild" />
+
+@code {
+
+    //https://blog.ppedv.de/post/Blazor-WASM-QRCode-Reader
+    Task<IJSObjectReference> moduleTask;
+    public ElementReference VideoHtmlElement { get; set; }
+    static string bild;
+    private static Action RefreshUI;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            moduleTask = JsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/camhelper.js").AsTask();
+            var module = await moduleTask;
+            await module.InvokeVoidAsync("initialize", VideoHtmlElement, DotNetObjectReference.Create(this));
+        }
+    }
+
+    [JSInvokable]
+    public void OnWebCameraError(string error)
+    {
+
+    }
+
+    public async void makefoto()
+    {
+        var module = await moduleTask;
+        bild = await module.InvokeAsync<string>("getBase64Img");
+        StateHasChanged();
+    }
+
+    [JSInvokable]
+    public static async Task OnFrameArrived(string _bild)
+    {
+        // FrameCount++;
+        // bild = _bild; //QrCode todo
+        // RefreshUI += () => StateHasChanged();
+        // RefreshUI?.Invoke();
+    }
+}
 
