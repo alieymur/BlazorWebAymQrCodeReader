@@ -1,31 +1,21 @@
-﻿const constraints = { audio: false, video: true };
-var video;
-
-export async function initialize(v, dotnet) {
-   video = v;
-   let stream = await navigator.mediaDevices.getUserMedia(constraints);
-   video.srcObject = stream;
-   video.play();
+﻿export async function init(videoElementRef, dotnetObjectRef) {
+    //console.log("Init");
+    try {
+        var stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        onSuccess(stream, videoElementRef);
+        dotnetObjectRef.invokeMethodAsync("OnSuccess");
+    }
+    catch (e) {
+        onFailure(e, dotnetObjectRef)
+    }
 }
-export function getBase64Img(video) {
-    let canvas = document.createElement("canvas");
-    let context = canvas.getContext('2d');
-    canvas.setAttribute('width', video.videoWidth);
-    canvas.setAttribute('height', video.videoHeight);
-    context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
-    let data = canvas.toDataURL('image/png');
-    canvas.remove();
-    return data;
+function onSuccess(stream, videoElementRef) {
+
+    videoElementRef.srcObject = stream;
+    videoElementRef.play();
 }
 
-function errorMsg(msg, error, dotnet) {
-    dotnet.invokeMethodAsync("OnWebCamLiveError", msg);
+function onFailure(exception, dotnetObjectRef) {
+    console.log("Exception occurred", exception);
+    dotnetObjectRef.invokeMethodAsync("onFailure", exception.message);
 }
-
-const updateCanvas = (now, metadata) => {
-    DotNet.invokeMethodAsync('WebCamLabWASM','OnFrameArrived', getBase64Img(video));
-    video.requestVideoFrameCallback(updateCanvas);
-};
-
-video.requestVideoFrameCallback(updateCanvas);
-

@@ -5,80 +5,54 @@
 <PageTitle>Index</PageTitle>
 
 <h3>QrCode Oku</h3>
-
-<video @ref="VideoHtmlElement">
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    @errorMessage
+}
+else
+{
+<video @ref="VideoElementRef">
     Video Gelecek
 </video>
 
-<button @onclick="makefoto" class="btn">foto çek</button>
-<img src="@bild" />
-<script>
-    function docReady(fn) {
-        // see if DOM is already available
-        if (document.readyState === "complete"
-            || document.readyState === "interactive") {
-            // call on next available tick
-            setTimeout(fn, 1);
-        } else {
-            document.addEventListener("DOMContentLoaded", fn);
+<button class="btn btn-success" id="btnPicture" @onclick="OnTakePicture">Take Picture</button>
+}
+
+@code {
+
+    private ElementReference VideoElementRef { get; set; }
+    private string errorMessage = "";
+    private string jsModulePath = "./js/camhelper.js";
+    private Task<IJSObjectReference> moduleRef;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            moduleRef = JsRuntime.InvokeAsync<IJSObjectReference>("import", jsModulePath).AsTask();
+            var module = await moduleRef;
+            await module.InvokeVoidAsync("init", VideoElementRef, DotNetObjectReference.Create(this));
         }
     }
 
-    docReady(function () {
-        var resultContainer = document.getElementById('qr-reader-results');
-        var lastResult, countResults = 0;
-        function onScanSuccess(decodedText, decodedResult) {
-            if (decodedText !== lastResult) {
-                ++countResults;
-                lastResult = decodedText;
-                // Handle on success condition with the decoded message.
-                console.log(`Scan result ${decodedText}`, decodedResult);
-            }
-        }
-
-        var html5QrcodeScanner = new Html5QrcodeScanner(
-            "qr-reader", { fps: 10, qrbox: 250 });
-        html5QrcodeScanner.render(onScanSuccess);
-    });
-</script>
-@code {
-
-    //https://blog.ppedv.de/post/Blazor-WASM-QRCode-Reader
-    Task<IJSObjectReference> moduleTask;
-    public ElementReference VideoHtmlElement { get; set; }
-    static string bild;
-    private static Action RefreshUI;
-
-    // protected override async Task OnAfterRenderAsync(bool firstRender)
-    // {
-    //     if (firstRender)
-    //     {
-    //         moduleTask = JsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/camhelper.js").AsTask();
-    //         var module = await moduleTask;
-    //         await module.InvokeVoidAsync("initialize", VideoHtmlElement, DotNetObjectReference.Create(this));
-    //     }
-    // }
-
-    // [JSInvokable]
-    // public void OnWebCameraError(string error)
-    // {
-
-    // }
-
-    public async void makefoto()
+    [JSInvokable]
+    public void OnSuccess()
     {
-        var module = await moduleTask;
-        bild = await module.InvokeAsync<string>("getBase64Img");
+        StateHasChanged();
+
+    }
+    [JSInvokable]
+    public void onFailure(string e)
+    {
+        errorMessage = e.Replace("Requested device not found", "Bu cihazın kamerası yok. Bu yüzden tarama işlemi yapamazsınız.");
+
         StateHasChanged();
     }
 
-    // [JSInvokable]
-    // public static async Task OnFrameArrived(string _bild)
-    // {
-    //     // FrameCount++;
-    //     // bild = _bild; //QrCode todo
-    //     // RefreshUI += () => StateHasChanged();
-    //     // RefreshUI?.Invoke();
-    // }
+    [JSInvokable]
+    public void OnTakePicture(object data)
+    {
+        //process the data like face detecion
+    }
 }
 
