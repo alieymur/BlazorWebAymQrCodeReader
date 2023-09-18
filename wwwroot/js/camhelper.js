@@ -19,3 +19,4 @@ function onFailure(exception, dotnetObjectRef) {
     console.log("Exception occurred", exception);
     dotnetObjectRef.invokeMethodAsync("onFailure", exception.message);
 }
+
