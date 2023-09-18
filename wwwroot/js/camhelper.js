@@ -4,7 +4,9 @@
         var stream = await navigator.mediaDevices.getUserMedia(
             {
                 //video: true
-                facingMode: 'environment'
+                video: {
+                    facingMode: 'environment'
+                }
             });
         onSuccess(stream, videoElementRef);
         dotnetObjectRef.invokeMethodAsync("OnSuccess");
