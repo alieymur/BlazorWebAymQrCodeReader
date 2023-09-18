@@ -1,7 +1,11 @@
 ﻿export async function init(videoElementRef, dotnetObjectRef) {
     //console.log("Init");
     try {
-        var stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        var stream = await navigator.mediaDevices.getUserMedia(
+            {
+                //video: true
+                facingMode: 'environment'
+            });
         onSuccess(stream, videoElementRef);
         dotnetObjectRef.invokeMethodAsync("OnSuccess");
     }
@@ -19,4 +23,3 @@ function onFailure(exception, dotnetObjectRef) {
     console.log("Exception occurred", exception);
     dotnetObjectRef.invokeMethodAsync("onFailure", exception.message);
 }
-
