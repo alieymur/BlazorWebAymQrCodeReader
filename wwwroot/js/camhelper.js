@@ -17,16 +17,7 @@
                 audio:false,
                 //video: true
                 video: {
-                    width: {
-                        min: 1280,
-                        ideal: 1920,
-                        max: 2560,
-                    },
-                    height: {
-                        min: 720,
-                        ideal: 1080,
-                        max: 1440
-                    },
+
                     facingMode: 'environment'
                 }
             });
@@ -47,3 +38,15 @@ function onFailure(exception, dotnetObjectRef) {
   //  console.log("Exception occurred", exception);
     dotnetObjectRef.invokeMethodAsync("onFailure", exception.message);
 }
+
+export function getBase64Img(video) {
+    let canvas = document.createElement("canvas");
+    let context = canvas.getContext('2d');
+    canvas.setAttribute('width', video.videoWidth);
+    canvas.setAttribute('height', video.videoHeight);
+    context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+    let data = canvas.toDataURL('image/png');
+    canvas.remove();
+    return data;
+}
+

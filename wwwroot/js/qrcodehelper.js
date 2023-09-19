@@ -1,27 +1,18 @@
 ﻿/// <reference path="html5-qrcode.min.js" />
 
 import "./js/html5-qrcode.min.js"
-export async function init(videoElementRef, dotnetObjectRef) {
+
+const html5QrCode = new Html5Qrcode("reader");
+const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+    /* handle success */
+};
+const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+
+
+export async function init(videoElement, dotnetObjectRef) {
     try {
-        var stream = await navigator.mediaDevices.getUserMedia(
-            {
-                audio:false,
-                //video: true
-                video: {
-                    width: {
-                        min: 640,
-                        ideal: 640,
-                        max: 2560,
-                    },
-                    height: {
-                        min: 720,
-                        ideal: 1080,
-                        max: 1440
-                    },
-                    facingMode: 'environment'
-                }
-            });
-        onSuccess(stream, videoElementRef);
+        html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+        //onSuccess(stream, videoElementRef);
         dotnetObjectRef.invokeMethodAsync("OnSuccess");
     }
     catch (e) {
@@ -30,11 +21,11 @@ export async function init(videoElementRef, dotnetObjectRef) {
 }
 function onSuccess(stream, videoElementRef) {
 
-    videoElementRef.srcObject = stream;
-    videoElementRef.play();
+    //videoElementRef.srcObject = stream;
+    //videoElementRef.play();
 }
 
 function onFailure(exception, dotnetObjectRef) {
   //  console.log("Exception occurred", exception);
-    dotnetObjectRef.invokeMethodAsync("onFailure", exception.message);
+    dotnetObjectRef.invokeMethodAsync("onFailure", "Hata");
 }
