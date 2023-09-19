@@ -1,0 +1,20 @@
+﻿@page "/qrcode"
+@inject IJSRuntime JsRuntime
+
+<PageTitle>Qr Code</PageTitle>
+<h3>qrcode</h3>
+
+@code {
+    private string jsModulePath = "./js/camhelper.js";
+    private Task<IJSObjectReference> moduleRef;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            moduleRef = JsRuntime.InvokeAsync<IJSObjectReference>("import", jsModulePath).AsTask();
+            var module = await moduleRef;
+            //await module.InvokeVoidAsync("init", VideoElementRef, DotNetObjectReference.Create(this));
+        }
+    }
+}

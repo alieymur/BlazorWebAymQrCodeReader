@@ -1,16 +1,7 @@
-﻿export async function init(videoElementRef, dotnetObjectRef) {
-    //console.log("Init");
-    //var getMedia = navigator.mediaDevices.getUserMedia
-    //    || navigator.getUserMedia
-    //    || navigator.webkitGetUserMedia
-    //    || navigator.mozGetUserMedia
-    //    || navigator.msGetUserMedia;
-    //if (!getMedia) {
-    //    console.log("Exception occurred", getMedia);
-    //    onFailure("Bu cihaz kamera erişimin desteklemiyor", dotnetObjectRef);
-    //    return;
-    //}
+﻿/// <reference path="html5-qrcode.min.js" />
 
+import "./js/html5-qrcode.min.js"
+export async function init(videoElementRef, dotnetObjectRef) {
     try {
         var stream = await navigator.mediaDevices.getUserMedia(
             {
