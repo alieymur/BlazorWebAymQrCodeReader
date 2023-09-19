@@ -5,9 +5,10 @@
         || navigator.webkitGetUserMedia
         || navigator.mozGetUserMedia
         || navigator.msGetUserMedia;
-    console.log("Exception occurred", getMedia);
     if (!getMedia) {
-        onFailure(getMedia, dotnetObjectRef)
+        console.log("Exception occurred", getMedia);
+        onFailure(getMedia, dotnetObjectRef);
+        return;
     }
 
     try {
