@@ -40,13 +40,18 @@ function onFailure(exception, dotnetObjectRef) {
 }
 
 export function getBase64Img(video) {
-    let canvas = document.createElement("canvas");
+
+    //let canvas = document.createElement("canvas");
+    let canvas = document.getElementById("currentFrame");
     let context = canvas.getContext('2d');
     canvas.setAttribute('width', video.videoWidth);
     canvas.setAttribute('height', video.videoHeight);
     context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
     let data = canvas.toDataURL('image/png');
-    canvas.remove();
+
+    //canvas.removeAttribute('width');
+    //canvas.removeAttribute('height');
+    //canvas.remove();
     return data;
 }
 

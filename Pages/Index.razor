@@ -15,8 +15,10 @@ else
         Video Gelecek
     </video>
 
-<button class="btn btn-success" id="btnPicture" @onclick="OnTakePicture">Take Picture</button>
-    <img src="@capturedimage" />
+    <button class="btn btn-success" id="btnPicture" @onclick="OnTakePicture">Take Picture</button>
+    <img src="@capturedimage" width="50" height="outo" />
+    <canvas id="currentFrame"/>
+    
 }
 
 @code {
