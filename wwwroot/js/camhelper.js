@@ -39,10 +39,11 @@ function onFailure(exception, dotnetObjectRef) {
     dotnetObjectRef.invokeMethodAsync("onFailure", exception.message);
 }
 
-export function getBase64Img(video) {
+export function getBase64Img(video, canvas) {
 
     //let canvas = document.createElement("canvas");
-    let canvas = document.getElementById("currentFrame");
+    //let canvas = document.getElementById("currentFrame");
+    //let canvas = CanvasRef;
     let context = canvas.getContext('2d');
     canvas.setAttribute('width', video.videoWidth);
     canvas.setAttribute('height', video.videoHeight);

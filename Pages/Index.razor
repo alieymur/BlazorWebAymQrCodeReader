@@ -17,13 +17,14 @@ else
 
     <button class="btn btn-success" id="btnPicture" @onclick="OnTakePicture">Take Picture</button>
     <img src="@capturedimage" width="50" height="outo" />
-    <canvas id="currentFrame"/>
+    <canvas @ref="CanvasRef" id="currentFrame" />
     
 }
 
 @code {
 
     private ElementReference VideoElementRef { get; set; }
+    private ElementReference CanvasRef { get; set; }
     private string errorMessage = "";
     private string jsModulePath = "./js/camhelper.js";
     private Task<IJSObjectReference> moduleRef;
@@ -57,7 +58,7 @@ else
     public async void OnTakePicture(object data)
     {
         var module = await moduleRef;
-        capturedimage = await module.InvokeAsync<string>("getBase64Img", VideoElementRef);
+        capturedimage = await module.InvokeAsync<string>("getBase64Img", VideoElementRef, CanvasRef);
         StateHasChanged();
     }
 }
