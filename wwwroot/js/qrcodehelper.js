@@ -7,7 +7,18 @@ export async function init(videoElementRef, dotnetObjectRef) {
             {
                 audio:false,
                 //video: true
-                facingMode: 'environment'
+                video: {
+                    width: {
+                        min: 640,
+                        ideal: 640,
+                        max: 2560,
+                    },
+                    height: {
+                        min: 720,
+                        ideal: 1080,
+                        max: 1440
+                    },
+                    facingMode: 'environment'
                 }
             });
         onSuccess(stream, videoElementRef);
