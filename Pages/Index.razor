@@ -3,15 +3,13 @@
 
 
 <PageTitle>Index</PageTitle>
-
-<h3>QrCode Oku</h3>
 @if (!string.IsNullOrEmpty(errorMessage))
 {
     @errorMessage
 }
 else
 {
-    <video @ref="VideoElementRef" muted autoplay playsinline width="auto" height="480">
+    <video @ref="VideoElementRef" muted autoplay playsinline>
         Video Gelecek
     </video>
 

@@ -1,0 +1,26 @@
+﻿video {
+    width: auto;
+    height: 360;
+    padding: 0px;
+}
+canvas {
+    visibility: hidden;
+}
+
+@media screen and (orientation:portrait) {
+    video {
+        width:auto;
+        height:360;
+        padding:0px;
+    }
+}
+
+@media screen and (orientation:landscape) {
+
+    video {
+        width: auto;
+        height: 200;
+        padding:0px;
+    }
+
+}

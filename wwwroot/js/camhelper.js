@@ -17,7 +17,6 @@
                 audio:false,
                 //video: true
                 video: {
-
                     facingMode: 'environment'
                 }
             });
