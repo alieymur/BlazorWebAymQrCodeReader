@@ -1,37 +1,33 @@
 ﻿@page "/qrcode"
-@inject IJSRuntime JsRuntime
+@inject IJSRuntime JS
+@using ReactorBlazorQRCodeScanner
 
 <PageTitle>Qr Code</PageTitle>
 <h3>qrcode</h3>
 
-<div id="reader" width="600px"></div>
+<QRCodeScanner />
+<div>
+    @ResultValue
+</div>
+
 
 @code {
-    private string jsModulePath = "./js/camhelper.js";
-    private string errorMessage = "";
-    private Task<IJSObjectReference> moduleRef;
+    private string ResultValue = "Sonuç";
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    private QRCodeScannerJsInterop? _qrCodeScannerJsInterop;
+    private Action<string>? _onQrCodeScanAction;
+
+    protected override async Task OnInitializedAsync()
     {
-        if (firstRender)
-        {
-            moduleRef = JsRuntime.InvokeAsync<IJSObjectReference>("import", jsModulePath).AsTask();
-            var module = await moduleRef;
-            await module.InvokeVoidAsync("init", "reader", DotNetObjectReference.Create(this));
-        }
+        _onQrCodeScanAction = (code) => OnQrCodeScan(code);
+
+        _qrCodeScannerJsInterop = new QRCodeScannerJsInterop(JS);
+        await _qrCodeScannerJsInterop.Init(_onQrCodeScanAction);
     }
 
-    [JSInvokable]
-    public void OnSuccess()
+    private void OnQrCodeScan(string code)
     {
-        StateHasChanged();
-
-    }
-    [JSInvokable]
-    public void onFailure(string e)
-    {
-        errorMessage = e.Replace("Requested device not found", "Bu cihazın kamerası yok. Bu yüzden tarama işlemi yapamazsınız.");
-
-        StateHasChanged();
+        Console.WriteLine($"OnQrCodeScan {code}");
+        ResultValue = code;
     }
 }

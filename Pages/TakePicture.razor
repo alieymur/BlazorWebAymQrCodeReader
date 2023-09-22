@@ -6,15 +6,27 @@
 
 Camera opens straight away
 <br />
-<input type="file" accept="image/*" capture>
+<input type="file"  OnChange="@LoadFile" accept="image/*" capture>
 <br />
 <br />
-
+<InputFile @ref="inputFile"  OnChange="@LoadFile" accept="image/*" />
+<br/>
 Users can select from galery or capture
 <br />
-<input type="file" accept="image/*">
+<input type="file" OnChange="@LoadFile" accept="image/*">
+
+<img src="@ShowImage" asp-append-version="true" width="300px" />
+
 @code {
+    private string? imageBase64,ShowImage;
+    private InputFile? inputFile;
+    private ElementReference previewImageElem;
 
 
+    private async void LoadFile(InputFileChangeEventArgs e)
+    {
+        //var reader = await new StreamReader(e.File).ReadToEndAsync();
+        ShowImage = e.File.ToString();
+    }
 }
 

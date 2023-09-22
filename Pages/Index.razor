@@ -12,12 +12,13 @@ else
     <video @ref="VideoElementRef" muted autoplay playsinline>
         Video Gelecek
     </video>
-
     <button class="btn btn-success" id="btnPicture" @onclick="OnTakePicture">Take Picture</button>
-    <img src="@capturedimage" width="50" height="outo" />
-    <canvas @ref="CanvasRef" id="currentFrame" />
-    
 }
+
+<br/>
+<input type="file" OnChange="@OnTakePicture" accept="image/*" capture>
+<img src="@capturedimage" width="100" height="outo" />
+<canvas @ref="CanvasRef" id="currentFrame" />
 
 @code {
 

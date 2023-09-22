@@ -1,17 +1,17 @@
 ﻿export async function init(videoElementRef, dotnetObjectRef) {
     //console.log("Init");
-    var contains = {
-        audio: false,
-        video: { facingMode: 'environment'}
-    }
 
     try {
-        var stream = await navigator.mediaDevices.getUserMedia(contains);
+        var stream = await navigator.mediaDevices.getUserMedia(
+         {
+            audio: false,
+            video: { facingMode: 'environment' }
+         });
         onSuccess(stream, videoElementRef);
         dotnetObjectRef.invokeMethodAsync("OnSuccess");
     }
     catch (e) {
-        onFailure(e, dotnetObjectRef)
+        onFailure(e, dotnetObjectRef);
     }
 }
 function onSuccess(stream, videoElementRef) {
