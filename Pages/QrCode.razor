@@ -1,33 +1,15 @@
 ﻿@page "/qrcode"
 @inject IJSRuntime JS
-@using ReactorBlazorQRCodeScanner
 
 <PageTitle>Qr Code</PageTitle>
 <h3>qrcode</h3>
 
-<QRCodeScanner />
+
 <div>
-    @ResultValue
+   
 </div>
 
 
 @code {
-    private string ResultValue = "Sonuç";
 
-    private QRCodeScannerJsInterop? _qrCodeScannerJsInterop;
-    private Action<string>? _onQrCodeScanAction;
-
-    protected override async Task OnInitializedAsync()
-    {
-        _onQrCodeScanAction = (code) => OnQrCodeScan(code);
-
-        _qrCodeScannerJsInterop = new QRCodeScannerJsInterop(JS);
-        await _qrCodeScannerJsInterop.Init(_onQrCodeScanAction);
-    }
-
-    private void OnQrCodeScan(string code)
-    {
-        Console.WriteLine($"OnQrCodeScan {code}");
-        ResultValue = code;
-    }
 }
