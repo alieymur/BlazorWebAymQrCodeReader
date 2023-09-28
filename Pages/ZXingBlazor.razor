@@ -1,0 +1,25 @@
+﻿@page "/zxingblazor"
+@using ZXingBlazor
+
+<PageTitle>Qr Code</PageTitle>
+    <b>Result:</b>
+    <br />
+    <pre>@BarCode</pre>
+
+    <BarcodeReader ScanResult="ScanResult" />
+
+
+@code{
+
+    /// <summary>
+    /// BarCode
+    /// </summary>
+    public string? BarCode { get; set; }
+    bool ShowScanBarcode { get; set; } = false;
+
+    private void ScanResult(string e)
+    {
+        BarCode = e;
+        ShowScanBarcode = !ShowScanBarcode;
+    }
+}

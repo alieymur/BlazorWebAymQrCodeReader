@@ -2,6 +2,7 @@
     //console.log("Init");
 
     try {
+
         var stream = await navigator.mediaDevices.getUserMedia(
          {
             audio: false,

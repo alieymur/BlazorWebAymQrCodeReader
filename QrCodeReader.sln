@@ -4,6 +4,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QrCodeReader", "QrCodeReader.csproj", "{C65BDDE9-537A-4594-9A86-60FBFD0D2716}"
+	ProjectSection(ProjectDependencies) = postProject
+		{19B24EB3-8E86-4C9F-B7B9-5AF7D924F812} = {19B24EB3-8E86-4C9F-B7B9-5AF7D924F812}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Components", "..\Components\Components.csproj", "{19B24EB3-8E86-4C9F-B7B9-5AF7D924F812}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorBarcodeScanner.ZXing.JS", "..\BlazorBarcodeScanner.ZXing.JS\BlazorBarcodeScanner.ZXing.JS.csproj", "{22DE0827-7D60-4F10-88C1-07A64F9C2E76}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +22,14 @@ Global
 		{C65BDDE9-537A-4594-9A86-60FBFD0D2716}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C65BDDE9-537A-4594-9A86-60FBFD0D2716}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C65BDDE9-537A-4594-9A86-60FBFD0D2716}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19B24EB3-8E86-4C9F-B7B9-5AF7D924F812}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19B24EB3-8E86-4C9F-B7B9-5AF7D924F812}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19B24EB3-8E86-4C9F-B7B9-5AF7D924F812}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19B24EB3-8E86-4C9F-B7B9-5AF7D924F812}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22DE0827-7D60-4F10-88C1-07A64F9C2E76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22DE0827-7D60-4F10-88C1-07A64F9C2E76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22DE0827-7D60-4F10-88C1-07A64F9C2E76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22DE0827-7D60-4F10-88C1-07A64F9C2E76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

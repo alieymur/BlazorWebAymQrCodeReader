@@ -29,6 +29,7 @@ else
     private Task<IJSObjectReference> moduleRef;
     static string capturedimage;
 
+  
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -38,6 +39,7 @@ else
             await module.InvokeVoidAsync("init", VideoElementRef, DotNetObjectReference.Create(this));
         }
     }
+
 
     [JSInvokable]
     public void OnSuccess()
@@ -61,4 +63,3 @@ else
         StateHasChanged();
     }
 }
-

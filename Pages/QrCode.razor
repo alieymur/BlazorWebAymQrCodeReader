@@ -1,15 +1,54 @@
 ﻿@page "/qrcode"
-@inject IJSRuntime JS
-
-<PageTitle>Qr Code</PageTitle>
-<h3>qrcode</h3>
+@using Microsoft.JSInterop;
+@inject IJSRuntime JsRuntime
 
 
-<div>
-   
-</div>
+<PageTitle>Index</PageTitle>
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    @errorMessage
+}
+else
+{
+    <div style="width: 500px" id="reader"></div>
+    
+}
 
+<br />
+<p>@resultscan</p>
 
 @code {
 
+    private ElementReference VideoElementRef { get; set; }
+    private ElementReference CanvasRef { get; set; }
+    private string errorMessage = "";
+    private string jsModulePath = "./js/html5-qrcodehelper.js";
+    private Task<IJSObjectReference> moduleRef;
+    static string resultscan;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            moduleRef = JsRuntime.InvokeAsync<IJSObjectReference>("import", jsModulePath).AsTask();
+            var module = await moduleRef;
+            await module.InvokeVoidAsync("CreateBarcodeScanner", VideoElementRef, DotNetObjectReference.Create(this));
+        }
+    }
+
+    [JSInvokable]
+    public void OnScanSuccess(string m, string r)
+    {
+        resultscan = r;
+        StateHasChanged();
+
+    }
+    [JSInvokable]
+    public void onScanFailure(string e)
+    {
+        errorMessage = e.Replace("Requested device not found", "Bu cihazın kamerası yok. Bu yüzden tarama işlemi yapamazsınız.");
+
+        StateHasChanged();
+    }
 }
+

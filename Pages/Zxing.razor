@@ -1,0 +1,38 @@
+﻿@page "/zxing"
+@using BlazorBarcodeScanner.ZXing.JS
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm">
+            <BarcodeReader @ref="_reader"
+                           StartCameraAutomatically="true"
+                           Title="Tarıyor"
+                           VideoWidth="720"
+                           VideoHeight="540"
+                           StreamWidth="@StreamWidth"
+                           StreamHeight="@StreamHeight"
+                           OnBarcodeReceived="LocalReceivedBarcodeText"
+                           OnErrorReceived="LocalReceivedError"
+                           ShowStart="false"
+                           ShowReset="false"
+                           ShowResult="false"
+                           ShowStop="false"
+                           ShowToggleTorch="false"
+                           ShowVideoDeviceList="false"/>
+        </div>
+    
+    <div class="col-sm">
+        <div class="mt-1">
+            <div><b>Custom Result</b></div>
+                <div class="alert alert-success" style="word-break: break-all;" role="alert">@(!string.IsNullOrWhiteSpace(LocalBarcodeText) ? @LocalBarcodeText : "Results will be here")</div>
+        </div>
+        <div class="mt-1">
+            <div><b>Errors</b></div>
+            <div class="alert alert-danger" style="word-break: break-all;" role="alert">@(!string.IsNullOrWhiteSpace(_lastError) ? _lastError : "Errors will be here")</div>
+        </div>
+        <div class="mt-1">
+                <button @onclick="() => _reader.StartDecoding()" class="btn btn-outline-primary" >Tara</button>
+        </div>
+    </div>
+    </div>
+</div>
