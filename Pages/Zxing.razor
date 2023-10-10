@@ -6,11 +6,11 @@
         <div class="col-sm">
             <BarcodeReader @ref="_reader"
                            StartCameraAutomatically="true"
-                           Title="Tarıyor"
+                           
                            VideoWidth="720"
                            VideoHeight="540"
-                           StreamWidth="@StreamWidth"
-                           StreamHeight="@StreamHeight"
+                           StreamWidth="720"
+                           StreamHeight="540"
                            OnBarcodeReceived="LocalReceivedBarcodeText"
                            OnErrorReceived="LocalReceivedError"
                            ShowStart="false"
